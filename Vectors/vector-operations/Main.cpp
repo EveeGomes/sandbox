@@ -21,39 +21,38 @@ struct MyVector2D
       std::cout << "Vector x: " << m_x << " | y: " << m_y << std::endl;
    }
 
-   void PrintVector()
+   void PrintLocation()
    {
-      // Need like a table to simulate coordinates in order to draw something?
-      //std::cout << std::setfill('/') << std::setw(m_x + m_y) << "";
-      //std::cout << std::setfill('_') << std::setw(m_x) << "";
-      //std::cout << std::setfill('|') << std::setw(m_y) << "";
+      // Need a origin location like the world starting point. Then, from that location, set the x "padding/width" and y "height"
 
-      //int padding = m_x + 1;
-      int padding = m_x;
+      /** *
+      * 
+      * ^ y
+      * |
+      * |
+      * |    * (x, y)
+      * |____________> x
+      * 
+      * 
+      *             ^ y
+      *             |
+      *             | 
+      *             |
+      *  ___________|___________>x
+      *             |
+      *   (x, y) *  |   
+      *             |
+      **
+      * 
+      * 
+      * So, have a height that could represent the y axis and a width that could represent the x
+      * Those values "should" range from - to +, but in a window there's no way to have a negative x or negative y, right?
+      * Instead, the movement is to add +1 if moving right or adding -1 if moving left.
+      * But, y is inverted? To go down we add +1 and to go up we add -1 until it reaches 0 again. 
+      * (0, 0) in a window is the top left corner!
+      * 
+      */
 
-      //std::cout << "|" << "\n";
-      //m_y--;
-
-      while (m_y > 0)
-      {
-         if (m_y == 1)
-         {
-            std::cout << std::setw(padding) << "|";
-         }
-         else
-         {
-            std::cout << std::setw(padding) << "|" << "\n";
-            //std::cout << std::setw(padding) << "|\n";
-         }
-
-         m_y--;
-      }
-
-      while (m_x > 0)
-      {
-         std::cout << "_";
-         m_x--;
-      }
 
    }
 };
@@ -67,7 +66,7 @@ int main()
    Vec2.PrintVectorValues();
 
    std::cout << std::endl;
-   Vec2.PrintVector();
+   Vec2.PrintLocation();
    std::cout << std::endl;
    std::cout << std::endl;
 
