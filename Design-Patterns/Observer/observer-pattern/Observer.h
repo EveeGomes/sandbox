@@ -3,7 +3,7 @@
 #include <string>
 
 template <typename T>
-class Observer
+struct Observer
 {
    // the purpose of this obsever is to track changes in a particular field of a particular T type
 

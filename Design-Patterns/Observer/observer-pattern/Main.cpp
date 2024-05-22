@@ -11,7 +11,7 @@ class Person : public Observable<Person> // Person class implements an Observabl
 {
    int m_age;
 public:
-   Person(int age) { m_age = age; }
+   Person(int age) : m_age(age) {}
    
    int get_age() const
    {
@@ -50,6 +50,21 @@ private:
 
 int main(int arg, char* args[])
 {
+   // Put Observer and Observable together by connecting them using the subscribe function!
+
+   Person person{ 10 };
+   ConsolePersonObserver cpo;
+
+   // Connect them:
+   person.subscribe(cpo);
+
+   // Now we can change the ages and get notification about it!
+   person.set_age(11);
+   person.set_age(12);
+
+   // Unsubscribe an observer and stop getting notification
+   person.unsubscribe(cpo);
+   person.set_age(13);
 
 
    return 0;

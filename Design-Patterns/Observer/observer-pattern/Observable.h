@@ -36,7 +36,7 @@ public:
    {
       // use the erase remove idiom:
       observers.erase(
-         remove(observers.begin(), observers.end(), &observer, observers.end());
+         remove(observers.begin(), observers.end(), &observer), observers.end()
       );
    }
 };
