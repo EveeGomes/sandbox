@@ -5,8 +5,9 @@
 
 #include <iostream>
 #include "Observer.h"
+#include "Observable.h"
 
-class Person // observable
+class Person : public Observable<Person> // Person class implements an Observable of Person
 {
    int m_age;
 public:
@@ -19,7 +20,7 @@ public:
 
    void set_age(int age)
    {
-      m_age = age; // in the video he uses Person::m_age = age;
+      m_age = age;
    }
 };
 
