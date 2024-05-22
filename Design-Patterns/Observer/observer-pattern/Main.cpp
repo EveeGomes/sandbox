@@ -20,7 +20,14 @@ public:
 
    void set_age(int age)
    {
+      // Now, Person has the ability to not only change the age but inform somebody about this change!
+
+      // 1st check if the change has indeed made:
+      if (m_age == age) return;
+
+      // set the value and notify:
       m_age = age;
+      notify(*this, "age");
    }
 };
 

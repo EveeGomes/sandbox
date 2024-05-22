@@ -20,7 +20,7 @@ public:
    // public members that will manipulate the observable
 
    // Notify all obvservers that something has changed to the observable
-   void notify(T& source, std::string& field_name)
+   void notify(T& source, const std::string& field_name)
    {
       for (auto observer : observers) // for each observer
         observer->field_changed(source, field_name); // fire a notification
