@@ -2,14 +2,18 @@
 
 int main()
 {
-   Matrix<int> A{ 2, 3 };
+   std::fstream fin("matrix.txt");
 
-   std::cin >> A;
+   Matrix<int> A{3};
+
+   fin >> A;
    std::cout << A;
 
    //Matrix<float> B{ 3 };
 
    //Matrix<int> C = A;
+
+   fin.close();
 
    return 0;
 }

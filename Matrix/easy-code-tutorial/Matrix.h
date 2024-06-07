@@ -2,6 +2,7 @@
 #define MATRIX_H
 
 #include <iostream>
+#include <fstream>
 
 template <class T>
 class Matrix
@@ -55,6 +56,12 @@ public:
 
    template <typename U>
    friend std::ostream& operator<< (std::ostream& os, const Matrix<U>& MatrixObj);
+
+   template <typename U>
+   friend std::ifstream& operator>> (std::ifstream& ifs, Matrix<U>& MatrixObj);
+
+   template <typename U>
+   friend std::ofstream& operator<< (std::ofstream& ofs, const Matrix<U>& MatrixObj);
 };
 
 template <typename T>
@@ -83,4 +90,29 @@ std::ostream& operator<< (std::ostream& os, const Matrix<T>& MatrixObj)
 
    return os;
 }
+
+template <typename T>
+std::ifstream& operator>> (std::ifstream& ifs, Matrix<T>& MatrixObj)
+{
+   for (int i = 0; i < MatrixObj.m_Rows * MatrixObj.m_Cols; i++)
+   {
+      ifs >> MatrixObj.m_MatrixPtr[i];
+   }
+   return ifs;
+}
+
+template <typename T>
+std::ofstream& operator<< (std::ofstream& ofs, const Matrix<T>& MatrixObj)
+{
+   for (int i = 0; i < MatrixObj.m_Rows; i++)
+   {
+      for (int j = 0; j < MatrixObj.m_Cols; j++)
+      {
+         ofs << MatrixObj.m_MatrixPtr[i * MatrixObj.m_Rows + j] << " ";
+      }
+      ofs << "\n";
+   }
+   return ofs;
+}
+
 #endif // !MATRIX_H
