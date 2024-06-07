@@ -91,6 +91,55 @@ public:
       // he used return 1 - (*this == OtherMatrix); // if == returns true (1), this will be 1 - 1 and return 0, false. If == is false (0) it'll be 1 - 0 and return 1, true.
    }
 
+   Matrix operator+ (const Matrix& OtherMatrix)
+   {
+      if (m_Rows == OtherMatrix.m_Rows && m_Cols == OtherMatrix.m_Cols)
+      {
+         Matrix Result{ m_Rows, m_Cols };
+
+         for (int i = 0; i < m_Rows * m_Cols; i++)
+         {
+            Result.m_MatrixPtr[i] = m_MatrixPtr[i] + OtherMatrix.m_MatrixPtr[i];
+         }
+         return Result;
+      }
+   }
+
+   Matrix operator- (const Matrix& OtherMatrix)
+   {
+      if (m_Rows == OtherMatrix.m_Rows && m_Cols == OtherMatrix.m_Cols)
+      {
+         Matrix Result{ m_Rows, m_Cols };
+
+         for (int i = 0; i < m_Rows * m_Cols; i++)
+         {
+            Result.m_MatrixPtr[i] = m_MatrixPtr[i] - OtherMatrix.m_MatrixPtr[i];
+         }
+         return Result;
+      }
+   }
+
+   Matrix operator* (const Matrix& OtherMatrix)
+   {
+      if (m_Cols == OtherMatrix.m_Rows)
+      {
+         Matrix Result{ m_Rows, OtherMatrix.m_Cols };
+
+         for (int i = 0; i < m_Rows; i++)
+         {
+            for (int j = 0; i < OtherMatrix.m_Cols; j++)
+            {
+               Result.m_MatrixPtr[i * Result.m_Cols + j] = 0;
+               for (int k = 0; k < m_Cols; k++)
+               {
+                  Result.m_MatrixPtr[i * Result.m_Cols + j] += m_MatrixPtr[i * m_Cols + k] * OtherMatrix.m_MatrixPtr[k * OtherMatrix.m_Cols + j];
+               }
+            }
+         }
+         return Result;
+      }
+   }
+
    /** Friend functions */
    template <typename U>
    friend std::istream& operator>> (std::istream& is, Matrix<U>& MatrixObj);

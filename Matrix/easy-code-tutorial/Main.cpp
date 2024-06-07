@@ -16,7 +16,13 @@ int main()
    Matrix<int> B = C; // assignment operator
    std::cout << std::endl;
    std::cout << B;
-   
+
+   Matrix<int> D{2}; // can't be float...
+   std::cin >> D;
+   std::cout << "\n" << D;
+
+   if (A == B) std::cout << "Same!\n";
+   if (A != D) std::cout << "Not the same!";
 
    fin.close();
 
