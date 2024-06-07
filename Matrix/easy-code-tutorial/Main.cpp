@@ -4,25 +4,20 @@ int main()
 {
    std::fstream fin("matrix.txt");
 
-   Matrix<int> A{3};
+   Matrix<int> A{2};
 
    fin >> A;
    std::cout << A;
 
-   Matrix<int> C{A}; // copy constructor
-   std::cout << std::endl;
-   std::cout << C;
-
-   Matrix<int> B = C; // assignment operator
+   Matrix<int> B{2}; // assignment operator
+   std::cin >> B;
    std::cout << std::endl;
    std::cout << B;
 
-   Matrix<int> D{2}; // can't be float...
-   std::cin >> D;
+   Matrix<int> D = A * B;
    std::cout << "\n" << D;
 
-   if (A == B) std::cout << "Same!\n";
-   if (A != D) std::cout << "Not the same!";
+
 
    fin.close();
 

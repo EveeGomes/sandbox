@@ -127,7 +127,7 @@ public:
 
          for (int i = 0; i < m_Rows; i++)
          {
-            for (int j = 0; i < OtherMatrix.m_Cols; j++)
+            for (int j = 0; j < OtherMatrix.m_Cols; j++)
             {
                Result.m_MatrixPtr[i * Result.m_Cols + j] = 0;
                for (int k = 0; k < m_Cols; k++)
