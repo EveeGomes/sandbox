@@ -32,20 +32,7 @@ public:
    // Copy constructor
    Matrix(const Matrix& OtherMatrix)
    {
-      (*this) = OtherMatrix; // calling the assignment operator since it has the same implementation as the below:
-      
-      //m_Rows = OtherMatrix.m_Rows;
-      //m_Cols = OtherMatrix.m_Cols;
-
-      //// Deep copy
-      //// Set the pointer
-      //m_MatrixPtr = new T[m_Rows * m_Cols];
-
-      //// Copy the content from OtherMatrix matrix, to the current object matrix
-      //for (int i = 0; i < m_Rows * m_Cols; i++)
-      //{
-      //   m_MatrixPtr[i] = OtherMatrix.m_MatrixPtr[i];
-      //}
+      (*this) = OtherMatrix; // calling the assignment operator since it has the same implementation
    }
 
    ~Matrix()
@@ -70,6 +57,38 @@ public:
          m_MatrixPtr[i] = OtherMatrix.m_MatrixPtr[i];
       }
       return *this;
+   }
+
+   bool operator== (const Matrix& OtherMatrix)
+   {
+      if (m_Rows == OtherMatrix.m_Rows && m_Cols == OtherMatrix.m_Cols)
+      {
+         for (int i = 0; i < m_Rows * m_Cols; i++)
+         {
+            if (m_MatrixPtr[i] != OtherMatrix.m_MatrixPtr[i])
+            {
+               return false;
+            }
+         }
+         return true;
+      }
+      else
+      {
+         return false;
+      }
+   }
+
+   bool operator!= (const Matrix& OtherMatrix)
+   {
+      if (*this == OtherMatrix)
+      {
+         return false;
+      }
+      else
+      {
+         return true;
+      }
+      // he used return 1 - (*this == OtherMatrix); // if == returns true (1), this will be 1 - 1 and return 0, false. If == is false (0) it'll be 1 - 0 and return 1, true.
    }
 
    /** Friend functions */
