@@ -1,6 +1,8 @@
 #ifndef MATRIX_H
 #define MATRIX_H
 
+#include <iostream>
+
 template <class T>
 class Matrix
 {
@@ -47,6 +49,38 @@ public:
    {
       delete[] m_MatrixPtr;
    }
+
+   template <typename U>
+   friend std::istream& operator>> (std::istream& is, Matrix<U>& MatrixObj);
+
+   template <typename U>
+   friend std::ostream& operator<< (std::ostream& os, const Matrix<U>& MatrixObj);
 };
 
+template <typename T>
+std::istream& operator>> (std::istream& is, Matrix<T>& MatrixObj)
+{
+   for (int i = 0; i < MatrixObj.m_Rows * MatrixObj.m_Cols; i++) // as a friend it can have access to private members
+   {
+      is >> MatrixObj.m_MatrixPtr[i];
+   }
+
+   return is;
+}
+
+template <typename T>
+std::ostream& operator<< (std::ostream& os, const Matrix<T>& MatrixObj)
+{
+   for (int i = 0; i < MatrixObj.m_Rows; i++)
+   {
+      for (int j = 0; j < MatrixObj.m_Cols; j++)
+      {
+         os << MatrixObj.m_MatrixPtr[i * MatrixObj.m_Cols + j] << " "; // incorrect: m_MatrixPtr[i][j] // he used [i * MatrixObj.m_Cols + j] ?????? -> becausae m_MatrixPtr is allocated as a single-dimensional array, not a two-dimensional array!!!!
+                                                                       // so, to access the elements we need to convert the two-dimensional indices (i and j) into a single-dimensional index!!!!
+      }
+      os << " \n";
+   }
+
+   return os;
+}
 #endif // !MATRIX_H
