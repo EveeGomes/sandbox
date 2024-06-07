@@ -4,7 +4,6 @@
 
 // What kinds of operations are needed?
 // In this case we need a list of all subscribers aka observers which are attatched to this observable!
-// These 
 
 #include <string>
 #include <vector>
