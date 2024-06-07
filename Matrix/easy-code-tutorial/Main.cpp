@@ -4,20 +4,16 @@ int main()
 {
    std::fstream fin("matrix.txt");
 
-   Matrix<int> A{2};
-
+   Matrix<int> A{2, 3};
    fin >> A;
-   std::cout << A;
+   std::cout << A << std::endl;
 
-   Matrix<int> B{2}; // assignment operator
-   std::cin >> B;
-   std::cout << std::endl;
-   std::cout << B;
+   Matrix<int> B{3, 1};
+   fin >> B;
+   std::cout << B << std::endl;
 
    Matrix<int> D = A * B;
    std::cout << "\n" << D;
-
-
 
    fin.close();
 
