@@ -9,9 +9,14 @@ int main()
    fin >> A;
    std::cout << A;
 
-   //Matrix<float> B{ 3 };
+   Matrix<int> C{A}; // copy constructor
+   std::cout << std::endl;
+   std::cout << C;
 
-   //Matrix<int> C = A;
+   Matrix<int> B = C; // assignment operator
+   std::cout << std::endl;
+   std::cout << B;
+   
 
    fin.close();
 

@@ -32,18 +32,20 @@ public:
    // Copy constructor
    Matrix(const Matrix& OtherMatrix)
    {
-      m_Rows = OtherMatrix.m_Rows;
-      m_Cols = OtherMatrix.m_Cols;
+      (*this) = OtherMatrix; // calling the assignment operator since it has the same implementation as the below:
+      
+      //m_Rows = OtherMatrix.m_Rows;
+      //m_Cols = OtherMatrix.m_Cols;
 
-      // Deep copy
-      // Set the pointer
-      m_MatrixPtr = new T[m_Rows * m_Cols];
+      //// Deep copy
+      //// Set the pointer
+      //m_MatrixPtr = new T[m_Rows * m_Cols];
 
-      // Copy the content from OtherMatrix matrix, to the current object matrix
-      for (int i = 0; i < m_Rows * m_Cols; i++)
-      {
-         m_MatrixPtr[i] = OtherMatrix.m_MatrixPtr[i];
-      }
+      //// Copy the content from OtherMatrix matrix, to the current object matrix
+      //for (int i = 0; i < m_Rows * m_Cols; i++)
+      //{
+      //   m_MatrixPtr[i] = OtherMatrix.m_MatrixPtr[i];
+      //}
    }
 
    ~Matrix()
@@ -51,6 +53,26 @@ public:
       delete[] m_MatrixPtr;
    }
 
+   Matrix& operator= (const Matrix& OtherMatrix)
+   {
+      if (this)
+      {
+         this->~Matrix();
+      }
+      
+      m_Rows = OtherMatrix.m_Rows;
+      m_Cols = OtherMatrix.m_Cols;
+
+      m_MatrixPtr = new T[m_Rows * m_Cols];
+
+      for (int i = 0; i < m_Rows * m_Cols; i++)
+      {
+         m_MatrixPtr[i] = OtherMatrix.m_MatrixPtr[i];
+      }
+      return *this;
+   }
+
+   /** Friend functions */
    template <typename U>
    friend std::istream& operator>> (std::istream& is, Matrix<U>& MatrixObj);
 
