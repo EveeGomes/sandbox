@@ -3,17 +3,58 @@
 #include <iostream>
 
 // Screen Dimentions Constants
-const int SCREEN_WIDTH = 800;
-const int SCREEN_HEIGHT = 400;
+const int gSCREEN_WIDTH = 800;
+const int gSCREEN_HEIGHT = 400;
 
-int main(int argc, char* argv[])
+// The window we'll be rendering to
+SDL_Window* gWindow = nullptr;
+// The surface contained by the window
+SDL_Surface* gScreenSurface = nullptr;
+
+bool gQuit = false;
+
+SDL_Renderer* renderer = nullptr; // this will be needed in the Ball class...
+
+
+//void DrawFilledCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius) {
+//   int x = radius;
+//   int y = 0;
+//   int err = 1 - x;
+//
+//   while (x >= y) {
+//      SDL_RenderDrawLine(renderer, centerX - x, centerY + y, centerX + x, centerY + y);
+//      SDL_RenderDrawLine(renderer, centerX - y, centerY + x, centerX + y, centerY + x);
+//      SDL_RenderDrawLine(renderer, centerX - x, centerY - y, centerX + x, centerY - y);
+//      SDL_RenderDrawLine(renderer, centerX - y, centerY - x, centerX + y, centerY - x);
+//
+//      y++;
+//
+//      if (err < 0) {
+//         err += 2 * y + 1;
+//      }
+//      else {
+//         x--;
+//         err += 2 * (y - x + 1);
+//      }
+//   }
+//}
+
+struct Ball
 {
-   // The window we'll be rendering to
-   SDL_Window* Window = nullptr;
+   float x, y;
+   float speedX, speedY;
+   float radius;
 
-   // The surface constianed by the window
-   SDL_Surface* ScreenSurface = nullptr;
+   void Draw()
+   {
+      // Use the function above! It's a modified function of the midpoint circle algorithm. 
+      // It'll draw horizontal lines (or vertical) between pairs of points filling the space inside the circle.
+      DrawFilledCircle(renderer, (int)x, (int)y, radius);
+   }
+};
 
+void InitializeSDLWindow()
+{
    // Initialize SDL
    if (SDL_Init(SDL_INIT_VIDEO) < 0)
    {
@@ -22,43 +63,95 @@ int main(int argc, char* argv[])
    else
    {
       // Create window
-      Window = SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-      if (Window == NULL)
+      gWindow = SDL_CreateWindow("Pong", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, gSCREEN_WIDTH, gSCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+      
+      if (gWindow == NULL)
       {
          std::cout << "Window could not be created! SDL Error: " << SDL_GetError();
       }
       else
       {
+         // Create renderer for window
+         renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+         if (renderer == NULL) {
+            std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError();
+            SDL_DestroyWindow(gWindow);
+            SDL_Quit();
+            return;
+         }
+
+         // Set renderer color to white
+         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+
          // Get window surface
-         ScreenSurface = SDL_GetWindowSurface(Window);
+         gScreenSurface = SDL_GetWindowSurface(gWindow);
 
          // Fill the surface white
-         SDL_FillRect(ScreenSurface, NULL, SDL_MapRGB(ScreenSurface->format, 0xFF, 0xFF, 0xFF));
+         SDL_FillRect(gScreenSurface, NULL, SDL_MapRGB(gScreenSurface->format, 0, 0, 0));
 
          // Update the surface
-         SDL_UpdateWindowSurface(Window);
-
-         // Hack to get the window to stay up
-         SDL_Event e;
-         bool Quit = false;
-
-         while (Quit == false)
-         {
-            while (SDL_PollEvent(&e))
-            {
-               if (e.type == SDL_QUIT) {
-                  Quit = true;
-               }
-            }
-         }
+         SDL_UpdateWindowSurface(gWindow);
       }
    }
+}
+
+void Input()
+{
+   // Check for quit event to close the window
+   SDL_Event e;
+
+   // Constantly pull and see if there are any events here
+   while (SDL_PollEvent(&e) != 0)
+   {
+      if (e.type == SDL_QUIT) {
+         gQuit = true;
+      }
+   }
+}
+
+void MainLoop()
+{
+   // While application is running
+   while (!gQuit)
+   {
+      // Handle input
+      Input();
+
+      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      SDL_RenderClear(renderer);
+
+      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+      DrawFilledCircle(renderer, 400, 200, 100);
+
+      SDL_RenderPresent(renderer);
+   }
+}
+
+void CleanUp()
+{
+   SDL_DestroyRenderer(renderer);
 
    // Destroy window
-   SDL_DestroyWindow(Window);
+   SDL_DestroyWindow(gWindow);
 
    // Quit SDL subsystem
    SDL_Quit();
+}
+
+
+int main(int argc, char* argv[])
+{
+
+   InitializeSDLWindow();
+
+   // Create rectangles (paddles)
+   // Create the ball
+
+
+   MainLoop();
+
+   CleanUp();
 
    return 0;
 }
+
