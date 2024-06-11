@@ -15,6 +15,8 @@ SDL_Surface* gScreenSurface = nullptr;
 
 bool gQuit = false;
 
+// From Mike Shah *_* https://www.youtube.com/watch?v=9P_MAgSNZx8&ab_channel=MikeShah
+// Similar to what we have in OpenGL (Context), a Renderer is where we hold the state. It takes up the whole screen/window. 
 SDL_Renderer* gRenderer = nullptr;
 
 void InitializeSDLWindow()
@@ -77,18 +79,26 @@ void MainLoop()
 {
    Ball FirstBall{50, 50, 3, gRenderer};
 
-   // While application is running
+   // While application is running -> infinite loop
    while (!gQuit)
    {
-      // Handle input
+      // (1) Handle input
       Input();
 
+      // (2) Handle Updates
+      // (3) Clear and Draw the screen
+
+      // Since SDL_RenderClear gives us a white screen once it clears, we should set the color first so it leaves in the Renderer state.
       SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      // Gives us a clear "canvas"
       SDL_RenderClear(gRenderer);
+
+      // Do our drawing
+      // But first, change the state of what we're drawing, i.e, we use the renderer which holds these states
       SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      
       FirstBall.Draw();
 
+      // Finally show what we've drawn
       SDL_RenderPresent(gRenderer);
    }
 }
