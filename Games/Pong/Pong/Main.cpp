@@ -2,6 +2,8 @@
 #include "SDL.h"
 #include <iostream>
 
+#include "Ball.h"
+
 // Screen Dimentions Constants
 const int gSCREEN_WIDTH = 800;
 const int gSCREEN_HEIGHT = 400;
@@ -13,45 +15,7 @@ SDL_Surface* gScreenSurface = nullptr;
 
 bool gQuit = false;
 
-SDL_Renderer* renderer = nullptr; // this will be needed in the Ball class...
-
-
-//void DrawFilledCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius) {
-//   int x = radius;
-//   int y = 0;
-//   int err = 1 - x;
-//
-//   while (x >= y) {
-//      SDL_RenderDrawLine(renderer, centerX - x, centerY + y, centerX + x, centerY + y);
-//      SDL_RenderDrawLine(renderer, centerX - y, centerY + x, centerX + y, centerY + x);
-//      SDL_RenderDrawLine(renderer, centerX - x, centerY - y, centerX + x, centerY - y);
-//      SDL_RenderDrawLine(renderer, centerX - y, centerY - x, centerX + y, centerY - x);
-//
-//      y++;
-//
-//      if (err < 0) {
-//         err += 2 * y + 1;
-//      }
-//      else {
-//         x--;
-//         err += 2 * (y - x + 1);
-//      }
-//   }
-//}
-
-struct Ball
-{
-   float x, y;
-   float speedX, speedY;
-   float radius;
-
-   void Draw()
-   {
-      // Use the function above! It's a modified function of the midpoint circle algorithm. 
-      // It'll draw horizontal lines (or vertical) between pairs of points filling the space inside the circle.
-      DrawFilledCircle(renderer, (int)x, (int)y, radius);
-   }
-};
+SDL_Renderer* gRenderer = nullptr;
 
 void InitializeSDLWindow()
 {
@@ -72,8 +36,8 @@ void InitializeSDLWindow()
       else
       {
          // Create renderer for window
-         renderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-         if (renderer == NULL) {
+         gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
+         if (gRenderer == NULL) {
             std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError();
             SDL_DestroyWindow(gWindow);
             SDL_Quit();
@@ -81,7 +45,7 @@ void InitializeSDLWindow()
          }
 
          // Set renderer color to white
-         SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+         SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
 
          // Get window surface
          gScreenSurface = SDL_GetWindowSurface(gWindow);
@@ -111,25 +75,27 @@ void Input()
 
 void MainLoop()
 {
+   Ball FirstBall{50, 50, 3, gRenderer};
+
    // While application is running
    while (!gQuit)
    {
       // Handle input
       Input();
 
-      SDL_SetRenderDrawColor(renderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
-      SDL_RenderClear(renderer);
+      SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      SDL_RenderClear(gRenderer);
+      SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+      
+      FirstBall.Draw();
 
-      SDL_SetRenderDrawColor(renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
-      DrawFilledCircle(renderer, 400, 200, 100);
-
-      SDL_RenderPresent(renderer);
+      SDL_RenderPresent(gRenderer);
    }
 }
 
 void CleanUp()
 {
-   SDL_DestroyRenderer(renderer);
+   SDL_DestroyRenderer(gRenderer);
 
    // Destroy window
    SDL_DestroyWindow(gWindow);
