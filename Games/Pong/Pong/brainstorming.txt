@@ -1,0 +1,8 @@
+Is it possible to have getters for a Ball object's centerX, centerY and Radius so the DrawFilledCircle is declared and called in Main file?
+That would remove the need of declaring a Renderer pointer as member of Ball and including SDL.h as well.
+
+But in Main, how to call the DrawFilledCircle function usng a Ball object?
+
+Create a Draw class?
+The DrawFilledCircle receives a Ball pointer and a SDL_Renderer pointer?
+But the Ball obj's centers need to change for it to move

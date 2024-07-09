@@ -1,8 +1,14 @@
 // Setup SDL
 #include "SDL.h"
+#include <SDL_image.h>
+#include <SDL_ttf.h>
+
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #include "Ball.h"
+//#include "LTexture.h"
 
 // Screen Dimentions Constants
 const int gSCREEN_WIDTH = 800;
@@ -38,8 +44,9 @@ void InitializeSDLWindow()
       else
       {
          // Create renderer for window
-         gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-         if (gRenderer == NULL) {
+         gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC); // create vsynced renderer for window
+         if (gRenderer == NULL) 
+         {
             std::cout << "Renderer could not be created! SDL Error: " << SDL_GetError();
             SDL_DestroyWindow(gWindow);
             SDL_Quit();
@@ -69,7 +76,8 @@ void Input()
    // Constantly pull and see if there are any events here
    while (SDL_PollEvent(&e) != 0)
    {
-      if (e.type == SDL_QUIT) {
+      if (e.type == SDL_QUIT) 
+      {
          gQuit = true;
       }
    }
@@ -78,6 +86,19 @@ void Input()
 void MainLoop()
 {
    Ball FirstBall{50, 50, 3, gRenderer};
+   FirstBall.SetSpeeds(0.02f, 0.f);
+
+   //// For calculating frames:
+   //SDL_Color textColor = { 255, 255, 255, 255 }; // white
+
+   //// Current time start time
+   //Uint32 startTime = 0;
+
+   ////The frames per second timer
+   //LTimer fpsTimer;
+
+   //In memory text stream
+   std::stringstream timeText;
 
    // While application is running -> infinite loop
    while (!gQuit)
@@ -86,10 +107,48 @@ void MainLoop()
       Input();
 
       // (2) Handle Updates
+
+      //// Change the Ball obj x parameter every frame
+      //FirstBall.m_CenterX += FirstBall.m_SpeedX * ((SDL_GetTicks() - startTime)/100);
+      //std::cout << FirstBall.m_CenterX << "\n";
+      //   
+
+      //if (FirstBall.m_CenterX > gSCREEN_WIDTH)
+      //{
+      //   FirstBall.m_CenterX = gSCREEN_WIDTH;
+      //   FirstBall.m_SpeedX *= -1.1f;
+      //}
+
+      //if (FirstBall.m_CenterX < 0.f)
+      //{
+      //   FirstBall.m_CenterX = 0.f;
+      //   FirstBall.m_SpeedX *= -1.1f;
+      //}
+
+      // Following LazyFoo SDL tutorial 22_Timing @https://lazyfoo.net/tutorials/SDL/22_timing/index.php
+         
+      // Set text to be rendered
+      //timeText.str("");
+      //timeText << "Milliseconds since start time " << SDL_GetTicks() - startTime;
+
+      //// Render text
+      //if (!gTimeTextTexture.loadFromRenderedText(timeText.str().c_str(), textColor))
+      //{
+      //   printf("Unable to render time texture!\n");
+      //}
+
+      //Calculate and correct fps
+      //float avgFPS = countedFrames / (fpsTimer.getTicks() / 1000.f);
+      //if (avgFPS > 2000000)
+      //{
+      //   avgFPS = 0;
+      //}
+      //std::cout << avgFPS << "\n";
+
       // (3) Clear and Draw the screen
 
       // Since SDL_RenderClear gives us a white screen once it clears, we should set the color first so it leaves in the Renderer state.
-      SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE);
+      SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, SDL_ALPHA_OPAQUE); // all black
       // Gives us a clear "canvas"
       SDL_RenderClear(gRenderer);
 
@@ -97,6 +156,7 @@ void MainLoop()
       // But first, change the state of what we're drawing, i.e, we use the renderer which holds these states
       SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       FirstBall.Draw();
+      // Instead of calling Draw, 
 
       // Finally show what we've drawn
       SDL_RenderPresent(gRenderer);
@@ -105,12 +165,13 @@ void MainLoop()
 
 void CleanUp()
 {
+  // Destroy window
    SDL_DestroyRenderer(gRenderer);
-
-   // Destroy window
    SDL_DestroyWindow(gWindow);
+   gWindow = NULL;
+   gRenderer = NULL;
 
-   // Quit SDL subsystem
+   //Quit SDL subsystems
    SDL_Quit();
 }
 

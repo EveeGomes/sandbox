@@ -3,12 +3,10 @@
 Ball::Ball(int centerX, int centerY, int Radius, SDL_Renderer* Renderer)
    : m_CenterX(centerX), m_CenterY(centerY), m_Radius(Radius), m_Renderer(Renderer) {}
 
-void Ball::Draw()
+void Ball::SetSpeeds(float SpeedX, float SpeedY)
 {
-   // Use the function above! It's a modified function of the midpoint circle algorithm. 
-   // It'll draw horizontal lines (or vertical) between pairs of points filling the space inside the circle.
-
-   DrawFilledCircle((int)m_CenterX, (int)m_CenterY, m_Radius); // No need to pass a renderer because there's a m_Renderer member variable that can be used in the DrawFilledCircle!
+   m_SpeedX = SpeedX;
+   m_SpeedY = SpeedY;
 }
 
 void Ball::DrawFilledCircle(int centerX, int centerY, int Radius) {
@@ -34,3 +32,10 @@ void Ball::DrawFilledCircle(int centerX, int centerY, int Radius) {
    }
 }
 
+void Ball::Draw()
+{
+   // Use the function above! It's a modified function of the midpoint circle algorithm. 
+   // It'll draw horizontal lines (or vertical) between pairs of points filling the space inside the circle.
+
+   DrawFilledCircle((int)m_CenterX, (int)m_CenterY, m_Radius); // No need to pass a renderer because there's a m_Renderer member variable that can be used in the DrawFilledCircle!
+}
