@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="brainstorming.txt" />
+    <Text Include="Text.txt" />
     <Text Include="using-ltexture-ltimer.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

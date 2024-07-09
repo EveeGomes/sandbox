@@ -6,8 +6,8 @@
 
 class Ball
 {
-private:
-//public:
+//private:
+public:
    float m_CenterX, m_CenterY; // drawing from center to the border reaching it through the radius
    float m_Radius;
    float m_SpeedX, m_SpeedY;

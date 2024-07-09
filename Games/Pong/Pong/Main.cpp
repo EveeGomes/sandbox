@@ -10,6 +10,22 @@
 #include "Ball.h"
 //#include "LTexture.h"
 
+// From: https://gamedev.stackexchange.com/questions/110825/how-to-calculate-delta-time-with-sdl
+struct Clock
+{
+   uint32_t LastTickTime = 0;
+   uint32_t Delta = 0;
+
+   void Tick()
+   {
+      uint32_t TickTime = SDL_GetTicks();
+      Delta = TickTime - LastTickTime;
+      LastTickTime = TickTime;
+   }
+
+
+};
+
 // Screen Dimentions Constants
 const int gSCREEN_WIDTH = 800;
 const int gSCREEN_HEIGHT = 400;
@@ -85,8 +101,14 @@ void Input()
 
 void MainLoop()
 {
+   //In memory text stream
+   std::stringstream timeText;
+
+   Clock fpsTimer;
+
    Ball FirstBall{50, 50, 3, gRenderer};
    FirstBall.SetSpeeds(0.02f, 0.f);
+
 
    //// For calculating frames:
    //SDL_Color textColor = { 255, 255, 255, 255 }; // white
@@ -97,8 +119,8 @@ void MainLoop()
    ////The frames per second timer
    //LTimer fpsTimer;
 
-   //In memory text stream
-   std::stringstream timeText;
+   ////In memory text stream
+   //std::stringstream timeText;
 
    // While application is running -> infinite loop
    while (!gQuit)
@@ -108,16 +130,19 @@ void MainLoop()
 
       // (2) Handle Updates
 
-      //// Change the Ball obj x parameter every frame
-      //FirstBall.m_CenterX += FirstBall.m_SpeedX * ((SDL_GetTicks() - startTime)/100);
-      //std::cout << FirstBall.m_CenterX << "\n";
-      //   
+      fpsTimer.Tick();
+      //std::cout << fpsTimer.Delta;
 
-      //if (FirstBall.m_CenterX > gSCREEN_WIDTH)
-      //{
-      //   FirstBall.m_CenterX = gSCREEN_WIDTH;
-      //   FirstBall.m_SpeedX *= -1.1f;
-      //}
+      // Change the Ball obj x parameter every frame
+      FirstBall.m_CenterX += FirstBall.m_SpeedX * fpsTimer.Delta; //((SDL_GetTicks() - startTime)/100);
+      std::cout << FirstBall.m_CenterX << "\n";
+         
+
+      if (FirstBall.m_CenterX > gSCREEN_WIDTH)
+      {
+         FirstBall.m_CenterX = gSCREEN_WIDTH;
+         FirstBall.m_SpeedX *= -1.1f;
+      }
 
       //if (FirstBall.m_CenterX < 0.f)
       //{
@@ -156,7 +181,6 @@ void MainLoop()
       // But first, change the state of what we're drawing, i.e, we use the renderer which holds these states
       SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
       FirstBall.Draw();
-      // Instead of calling Draw, 
 
       // Finally show what we've drawn
       SDL_RenderPresent(gRenderer);

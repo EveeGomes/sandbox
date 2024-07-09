@@ -46,5 +46,8 @@
     <Text Include="brainstorming.txt">
       <Filter>Resource Files</Filter>
     </Text>
+    <Text Include="Text.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
