@@ -134,21 +134,21 @@ void MainLoop()
       //std::cout << fpsTimer.Delta;
 
       // Change the Ball obj x parameter every frame
-      FirstBall.m_CenterX += FirstBall.m_SpeedX * fpsTimer.Delta; //((SDL_GetTicks() - startTime)/100);
+      FirstBall.m_CenterX += FirstBall.m_SpeedX * fpsTimer.Delta * 5; //((SDL_GetTicks() - startTime)/100);
       std::cout << FirstBall.m_CenterX << "\n";
-         
 
       if (FirstBall.m_CenterX > gSCREEN_WIDTH)
       {
+         std::cout << FirstBall.m_CenterX << "> gSCREEN_WIDTH\n";
          FirstBall.m_CenterX = gSCREEN_WIDTH;
-         FirstBall.m_SpeedX *= -1.1f;
+         FirstBall.m_SpeedX *= -1.f; // 1.1f increases the ball velocity each frame. That's used when adding the paddles and ball - paddles collisions
       }
 
-      //if (FirstBall.m_CenterX < 0.f)
-      //{
-      //   FirstBall.m_CenterX = 0.f;
-      //   FirstBall.m_SpeedX *= -1.1f;
-      //}
+      if (FirstBall.m_CenterX + FirstBall.m_Radius < 0.f)
+      {
+         FirstBall.m_CenterX = 0.f;
+         FirstBall.m_SpeedX *= -1.f;
+      }
 
       // Following LazyFoo SDL tutorial 22_Timing @https://lazyfoo.net/tutorials/SDL/22_timing/index.php
          

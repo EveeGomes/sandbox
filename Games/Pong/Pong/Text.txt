@@ -1,1 +1,3 @@
-How to calculate/find delta time.
+[x] How to calculate/find delta time.
+[] Calculate Ball horizontal movement. (but it's not the ball's edge)
+[] Calculate Ball vertical movement.
