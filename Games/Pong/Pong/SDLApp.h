@@ -13,7 +13,7 @@ class SDLApp
 {
 public:
    // Constructor
-   SDLApp(char* title, int x, int y, int w, int h)
+   SDLApp(const char* title, int x, int y, int w, int h)
    {
       /** 
       * Initialize the video subsystem.
@@ -64,11 +64,48 @@ public:
       */
       SDL_DestroyWindow(m_Window);
    }
+
+   // Handle Events
+   void SetEventCallback(std::function<void(void)> func)
+   {
+      m_EventCallback = func;
+   }
+
+   // Handle Render
+   void SetRenderCallback(std::function<void(void)> func)
+   {
+      m_RenderCallback = func;
+
+      
+
+   }
+
+   // Loop our application
+   void RunLoop()
+   {
+      while (m_GameIsRunning)
+      {
+         // Handle events first
+         m_EventCallback();
+         // Then handle our rendering (6:41)
+         m_RenderCallback();
+      }
+
+   }
+
 private:
    // Pointer to our SDL Window
    SDL_Window* m_Window = nullptr;
    // Pointer to our SDL Renderer
    SDL_Renderer* m_Renderer = nullptr;
+   // Infinite loop for our application
+   bool m_GameIsRunning = true;
+   
+   // Store our callback functions (5:20)
+   std::function<void(void)> m_EventCallback;
+   std::function<void(void)> m_RenderCallback;
+   
+
 };
 
 #endif // !SDLAPP_H

@@ -42,6 +42,41 @@ bool gQuit = false;
 // Similar to what we have in OpenGL (Context), a Renderer is where we hold the state. It takes up the whole screen/window. 
 SDL_Renderer* gRenderer = nullptr;
 
+void HandleEvents()
+{
+   SDL_Event event;
+
+   // Variables to store mouse positions
+   int mouseX;
+   int mouseY;
+   Uint32 buttons;
+   buttons = SDL_GetGlobalMouseState(&mouseX, &mouseY);
+
+   // (1) Handle Input:
+   // Start our event loop
+   while (SDL_PollEvent(&event))
+   {
+      // Handle each specific event
+      if (event.type == SDL_QUIT)
+      {
+         gameIsRunning = false;
+      }
+      // 4:43 for mouse buttons events with detecting collision
+   }
+}
+
+void HandleRendering()
+{
+   // (2) Handle Updates
+
+   // (3) Clear and Draw the Screen
+   // Gives us clear "canvas"
+   SDL_SetRenderDrawColor(m_Renderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
+   SDL_RenderClear(m_Renderer);
+
+   // Do our drawing
+}
+
 void InitializeSDLWindow()
 {
    // Initialize SDL
@@ -219,7 +254,8 @@ void CleanUp()
 int main(int argc, char* argv[])
 {
    // Create an instance of SDL App
-   SDLApp{ "Pong - SDL2 Abstraction", 20, 20, 640, 480 };
+   SDLApp app{ "Pong - SDL2 Abstraction", 20, 20, 640, 480 };
+   app.RunLoop();
 
    InitializeSDLWindow();
 
