@@ -107,7 +107,7 @@ void MainLoop()
    Clock fpsTimer;
 
    Ball FirstBall{50, 50, 3, gRenderer};
-   FirstBall.SetSpeeds(0.02f, 0.f);
+   FirstBall.SetSpeeds(0.02f, 0.2f);
 
 
    //// For calculating frames:
@@ -134,8 +134,21 @@ void MainLoop()
       //std::cout << fpsTimer.Delta;
 
       // Change the Ball obj x parameter every frame
-      FirstBall.m_CenterX += FirstBall.m_SpeedX * fpsTimer.Delta * 5; //((SDL_GetTicks() - startTime)/100);
-      std::cout << FirstBall.m_CenterX << "\n";
+      //FirstBall.m_CenterX += FirstBall.m_SpeedX * fpsTimer.Delta;
+      FirstBall.m_CenterY += FirstBall.m_SpeedY * fpsTimer.Delta; // 500 += -0.2 * Delta (Delta needs to be higher enough to make m_CenterY or X lower than the height when added by the radius)
+      std::cout << fpsTimer.Delta << "\n";
+
+      if (FirstBall.m_CenterY < 0.f)
+      {
+         FirstBall.m_CenterY = 0.f;
+         FirstBall.m_SpeedY *= -1.f;
+      }
+
+      if (FirstBall.m_CenterY + FirstBall.m_Radius > gSCREEN_HEIGHT) // 497 + 3 > 500 -> 498 + 3 > 500
+      {
+         FirstBall.m_CenterY = gSCREEN_HEIGHT;
+         FirstBall.m_SpeedY *= -1.f;
+      }
 
       if (FirstBall.m_CenterX > gSCREEN_WIDTH)
       {
