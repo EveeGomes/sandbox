@@ -107,7 +107,7 @@ void MainLoop()
    Clock fpsTimer;
 
    Ball FirstBall{50, 50, 3, gRenderer};
-   FirstBall.SetSpeeds(0.02f, 0.2f);
+   FirstBall.SetSpeeds(0.02f, 0.5f);
 
 
    //// For calculating frames:
