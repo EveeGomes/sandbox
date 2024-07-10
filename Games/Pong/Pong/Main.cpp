@@ -9,6 +9,7 @@
 
 #include "Ball.h"
 //#include "LTexture.h"
+#include "SDLApp.h"
 
 // From: https://gamedev.stackexchange.com/questions/110825/how-to-calculate-delta-time-with-sdl
 struct Clock
@@ -68,6 +69,8 @@ void InitializeSDLWindow()
             SDL_Quit();
             return;
          }
+
+      /////////////////////////////////////
 
          // Set renderer color to white
          SDL_SetRenderDrawColor(gRenderer, 255, 255, 255, SDL_ALPHA_OPAQUE);
@@ -215,6 +218,8 @@ void CleanUp()
 
 int main(int argc, char* argv[])
 {
+   // Create an instance of SDL App
+   SDLApp{ "Pong - SDL2 Abstraction", 20, 20, 640, 480 };
 
    InitializeSDLWindow();
 

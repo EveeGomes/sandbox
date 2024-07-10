@@ -141,6 +141,7 @@
     <ClInclude Include="Ball.h" />
     <ClInclude Include="Drawing.h" />
     <ClInclude Include="LTexture.h" />
+    <ClInclude Include="SDLApp.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="brainstorming.txt" />
