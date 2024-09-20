@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="function-challenge.cpp">
+    <ClCompile Include="arrays-intro.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
