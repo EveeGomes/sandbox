@@ -7,6 +7,9 @@
 #include "Observer.h"
 #include "Observable.h"
 
+// Boost libraries
+#include "boost/signals2.hpp"
+
 class Person : public Observable<Person> // Person class implements an Observable of Person
 {
    int m_age;
@@ -47,6 +50,42 @@ private:
 
 // However to use that observer the Observable class needs to support this paradigm 
 
+
+/** 
+* Implementing a different interface using Boost.Signals2, which is one the Boost libraries specifically designed to implement the Observer pattern
+*  via the use of SIGNALS and SLOTS. Signals are basically used as variables whose value we can subscribe to, and when fired the slots (subscribers)
+*  get notifications.
+*/
+// Build an Observable specifically for boots
+template <typename T> struct Observable2
+{
+   // Create a signal and specify the signature of the function that's gonna be invoked, which in our case is a ref to the obj that's been changed
+   //  and the name of the field
+   boost::signals2::signal<void(T& objChanged, const std::string& fieldName)> field_changed;
+};
+
+// Create another class Person2 that implements the Observable2
+class Person2 : public Observable2<Person2>
+{
+   /** 
+   * This class will reconstruct the age in a similar fashion, but we'll use something that's already made (use Signals2).
+   */
+   // Fields
+   int m_age;
+
+public:
+   /** Getter and Setters */
+   int get_age() const { return m_age; }
+   void set_age(int age)
+   {
+      if (this->m_age == age) return;
+
+      // Change/Set m_age (a field) and notify all the subscribers (slots) via the signal we've created!
+      this->m_age = age;
+      // invoke on the signal so it notify all the slots
+      field_changed(*this, "age"); // specify the obj and the field name
+   }
+};
 
 int main(int arg, char* args[])
 {
