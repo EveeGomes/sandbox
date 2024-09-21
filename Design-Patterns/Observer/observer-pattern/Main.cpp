@@ -89,22 +89,23 @@ public:
 
 int main(int arg, char* args[])
 {
-   // Put Observer and Observable together by connecting them using the subscribe function!
+   // As we use Signals2, we don't need to create an observer! All we need is to connect using the signal we've created, and subscribe directly to it
+   //  using for example a lambda function, as we'll do below.
+   Person2 p2;
+   // connection is an object that kind of describes the subscription we made. We can also use it to disconnect slots from it.
+   // This is how we create the slots, the subscription to whatever event is actually being generated.
+   auto connection = p2.field_changed.connect(
+      [](Person2& p, const std::string& field_name)
+      {
+         std::cout << field_name << " has changed\n";
+      }
+   );
 
-   Person person{ 10 };
-   ConsolePersonObserver cpo;
+   // Now, we can make changes to the age and see the notification taking action
+   p2.set_age(20);
 
-   // Connect them:
-   person.subscribe(cpo);
-
-   // Now we can change the ages and get notification about it!
-   person.set_age(11);
-   person.set_age(12);
-
-   // Unsubscribe an observer and stop getting notification
-   person.unsubscribe(cpo);
-   person.set_age(13);
-
+   // Disconnect from connection (the equivalent of unsubscribing to the particular observable)
+   connection.disconnect();
 
    return 0;
 }
