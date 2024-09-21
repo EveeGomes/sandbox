@@ -32,6 +32,14 @@ public:
       m_age = age;
       notify(*this, "age");
    }
+
+   /** 
+   * There's an issue with this paradigm which lies in dependencies. (Lesson 106)
+   * Say we introduce a flag that tells whether a person can vote: get_can_vote(). If we want to manage the changes of that flag, we don't have
+   *  a way of calling notify on it, because there is no setter (and so it becomes unclear where we should call notify).
+   * The notify should be called in set_age since as we change the age, the flag also get affected!
+   * 
+   */
 };
 
 // Make a simple observer that prints something to the console. 
@@ -51,61 +59,8 @@ private:
 // However to use that observer the Observable class needs to support this paradigm 
 
 
-/** 
-* Implementing a different interface using Boost.Signals2, which is one the Boost libraries specifically designed to implement the Observer pattern
-*  via the use of SIGNALS and SLOTS. Signals are basically used as variables whose value we can subscribe to, and when fired the slots (subscribers)
-*  get notifications.
-*/
-// Build an Observable specifically for boots
-template <typename T> struct Observable2
-{
-   // Create a signal and specify the signature of the function that's gonna be invoked, which in our case is a ref to the obj that's been changed
-   //  and the name of the field
-   boost::signals2::signal<void(T& objChanged, const std::string& fieldName)> field_changed;
-};
-
-// Create another class Person2 that implements the Observable2
-class Person2 : public Observable2<Person2>
-{
-   /** 
-   * This class will reconstruct the age in a similar fashion, but we'll use something that's already made (use Signals2).
-   */
-   // Fields
-   int m_age;
-
-public:
-   /** Getter and Setters */
-   int get_age() const { return m_age; }
-   void set_age(int age)
-   {
-      if (this->m_age == age) return;
-
-      // Change/Set m_age (a field) and notify all the subscribers (slots) via the signal we've created!
-      this->m_age = age;
-      // invoke on the signal so it notify all the slots
-      field_changed(*this, "age"); // specify the obj and the field name
-   }
-};
-
 int main(int arg, char* args[])
 {
-   // As we use Signals2, we don't need to create an observer! All we need is to connect using the signal we've created, and subscribe directly to it
-   //  using for example a lambda function, as we'll do below.
-   Person2 p2;
-   // connection is an object that kind of describes the subscription we made. We can also use it to disconnect slots from it.
-   // This is how we create the slots, the subscription to whatever event is actually being generated.
-   auto connection = p2.field_changed.connect(
-      [](Person2& p, const std::string& field_name)
-      {
-         std::cout << field_name << " has changed\n";
-      }
-   );
-
-   // Now, we can make changes to the age and see the notification taking action
-   p2.set_age(20);
-
-   // Disconnect from connection (the equivalent of unsubscribing to the particular observable)
-   connection.disconnect();
 
    return 0;
 }
