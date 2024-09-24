@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="arrays-intro.cpp">
+    <ClCompile Include="variable-sized-arrays.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
