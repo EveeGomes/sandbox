@@ -14,6 +14,7 @@ class Person : public Observable<Person> // Person class implements an Observabl
 {
    int m_age;
 public:
+   Person() = default; // default constructor
    Person(int age) : m_age(age) {}
    
    int get_age() const
@@ -66,6 +67,7 @@ private:
    {
       std::cout << "Person's " << field_name << " has changed to: ";
       if (field_name == "age") std::cout << source.get_age();
+      if (field_name == "can_vote") std::cout << std::boolalpha << source.get_can_vote();
       std::cout << ".\n";
    }
 };
@@ -75,6 +77,14 @@ private:
 
 int main(int arg, char* args[])
 {
+   Person p{};
+
+   ConsolePersonObserver cpo;
+   p.subscribe(cpo);
+
+   p.set_age(15);
+   p.set_age(16);
+
 
    return 0;
 }
