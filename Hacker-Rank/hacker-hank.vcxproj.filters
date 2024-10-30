@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ps-compare-the-triplets.cpp">
+    <ClCompile Include="virtual-functions.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
