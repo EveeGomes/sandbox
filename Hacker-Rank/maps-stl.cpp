@@ -26,14 +26,14 @@ int main() {
 
    int type{};
    // have a map to associate the student's name and marks
-   std::map<std::string, int> studentInfo;
+   std::map<std::string, std::vector<int>> studentInfo;
 
    std::string name{};
    int mark{};
 
-   std::stringstream ssInput{};
+   // get the input and transfer to a stringstream to parse it later!
    std::string inputString{};
-   char discardSpace{};
+   std::stringstream ssInput{};
 
    while (Q > 0)
    {
@@ -50,7 +50,30 @@ int main() {
          // std::cin >> mark;
 
          ssInput >> name >> mark;
-         std::cout << name << " " << mark;
+
+         // add to the map if name doesn't exist yet
+         auto nameItr = studentInfo.find(name);
+         if (nameItr != studentInfo.end())
+         {
+
+            nameItr->second.push_back(mark);
+         }
+         else
+         {
+            studentInfo.insert(std::pair<std::string, std::vector<int>>(name, std::vector<int>{mark}));
+         }
+         
+
+         /*studentInfo[name] = mark;*/
+
+         //std::cout << name << " " << mark;
+      }
+      if (type == 2)
+      {
+         // erase the marks of the students whose name is given
+         ssInput >> name;
+
+
       }
       Q--;
    }
