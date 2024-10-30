@@ -24,6 +24,10 @@ public:
    {
       std::cout << m_name << " " << m_age << " ";
    }
+   virtual ~Person()
+   {
+      std::cout << "~Person()\n";
+   }
 };
 
 class Professor : public Person
@@ -134,32 +138,47 @@ int Student::s_count = 0;
 
 int main()
 {
-   int numOfPersons = 0;
-   std::cin >> numOfPersons;
+   int numOfPeople = 0;
+   std::cin >> numOfPeople;
 
    int typeOfPerson = 0;
 
-   while (numOfPersons > 0)
+   // create an array for each Professor and Student? Or could it be of Person type, like Person ptr so it points to its children?
+   // that way i could set the size as numOfPeople!
+
+   std::vector<Person*> people;
+
+   while (numOfPeople > 0)
    {
       std::cin >> typeOfPerson;
       if (typeOfPerson == 1)
       {
          // professor
-         Professor professor1{};
+         Professor* professor1 = new Professor{};
+         people.push_back(professor1);
          //professor1.getdata();
 
       }
       if (typeOfPerson == 2)
       {
          // student
-         Student student1{};
+         Student* student1 = new Student{};
+         people.push_back(student1);
          //student1.getdata();
       }
 
-      numOfPersons--;
+      numOfPeople--;
    }
 
-   // those object will be destroyed once the while is over? YES!
+   //for ()
+
+   // Need to manage memory as those objects aren't being destroyed when the program ends
+   // in a loop?
+   for (Person* person : people)
+   {
+      delete person;
+   }
+   //delete [] people;
 
    return 0;
 }
