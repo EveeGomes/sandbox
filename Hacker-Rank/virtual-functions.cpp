@@ -30,6 +30,7 @@ public:
    }
 };
 
+/************** PROFESSOR **************/
 class Professor : public Person
 {
    int m_publications{};
@@ -145,9 +146,6 @@ int main()
 
    int typeOfPerson = 0;
 
-   // create an array for each Professor and Student? Or could it be of Person type, like Person ptr so it points to its children?
-   // that way i could set the size as numOfPeople!
-
    std::vector<Person*> people;
 
    while (numOfPeople > 0)
@@ -156,23 +154,25 @@ int main()
       if (typeOfPerson == 1)
       {
          // professor
-         Professor* professor1 = new Professor{};
-         people.push_back(professor1);
-         professor1->getdata();
-         professor1->putdata();
+         Professor* professor = new Professor{};
+         people.push_back(professor);
+         professor->getdata();
       }
       if (typeOfPerson == 2)
       {
          // student
-         Student* student1 = new Student{};
-         people.push_back(student1);
-         //student1.getdata();
+         Student* student = new Student{};
+         people.push_back(student);
+         student->getdata();
       }
-
       numOfPeople--;
    }
 
-   //for ()
+   // Show each person's data
+   for (Person* person : people)
+   {
+      person->putdata();
+   }
 
    // Deallocate all Person* pointers
    for (Person* person : people)
