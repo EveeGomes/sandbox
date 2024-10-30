@@ -70,9 +70,10 @@ public:
    void putdata() override 
    {
       Person::putdata();
-      std::cout 
-         << m_publications << " " 
-         << s_count;
+      std::cout
+         << m_publications << " "
+         << s_count
+         << std::endl;
    }
 };
 int Professor::s_count = 0;
@@ -130,7 +131,8 @@ public:
       }
       std::cout
          << marksSum << " "
-         << m_cur_id;
+         << m_cur_id
+         << std::endl;
    }
 };
 int Student::s_count = 0;
@@ -156,8 +158,8 @@ int main()
          // professor
          Professor* professor1 = new Professor{};
          people.push_back(professor1);
-         //professor1.getdata();
-
+         professor1->getdata();
+         professor1->putdata();
       }
       if (typeOfPerson == 2)
       {
@@ -172,13 +174,11 @@ int main()
 
    //for ()
 
-   // Need to manage memory as those objects aren't being destroyed when the program ends
-   // in a loop?
+   // Deallocate all Person* pointers
    for (Person* person : people)
    {
       delete person;
    }
-   //delete [] people;
 
    return 0;
 }
