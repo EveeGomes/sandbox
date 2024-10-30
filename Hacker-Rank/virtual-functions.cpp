@@ -73,7 +73,7 @@ public:
       Person::putdata();
       std::cout
          << m_publications << " "
-         << s_count
+         << m_cur_id
          << std::endl;
    }
 };
