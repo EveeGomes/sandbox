@@ -37,9 +37,15 @@ int main() {
 
    while (Q > 0)
    {
+      // clear the string before reading a new input?
+      inputString.clear();
       //std::cin >> inputString;
       // get rid of the newline from the previous input but using std::ws together with std::cin
       std::getline(std::cin >> std::ws, inputString);
+
+      // clear and reset the stringstream before setting it with the content of the string
+      ssInput.clear();
+      ssInput.str("");
       ssInput.str(inputString);
       ssInput >> type;
       std::cout << "Q > 0; type is: " << type << std::endl;
@@ -72,9 +78,24 @@ int main() {
       {
          // erase the marks of the students whose name is given
          ssInput >> name;
-
-
+         if (studentInfo.find(name) != studentInfo.end())
+         {
+            studentInfo.find(name)->second.clear();
+         }
       }
+      if (type == 3)
+      {
+         // print the sum of marks of the students whose name is given
+         ssInput >> name;
+         if (studentInfo.find(name) != studentInfo.end())
+         {
+            for (const int& studentMark : studentInfo.find(name)->second)
+            {
+               std::cout << studentMark << std::endl;
+            }
+         }
+      }
+
       Q--;
    }
 
