@@ -48,7 +48,7 @@ int main() {
       ssInput.str("");
       ssInput.str(inputString);
       ssInput >> type;
-      std::cout << "Q > 0; type is: " << type << std::endl;
+      //std::cout << "Q > 0; type is: " << type << std::endl;
 
       if (type == 1)
       {
@@ -85,15 +85,17 @@ int main() {
       }
       if (type == 3)
       {
-         // print the sum of marks of the students whose name is given
+         int totalMarks{};
+         // print the marks of the students whose name is given
          ssInput >> name;
          if (studentInfo.find(name) != studentInfo.end())
          {
             for (const int& studentMark : studentInfo.find(name)->second)
             {
-               std::cout << studentMark << std::endl;
+               totalMarks += studentMark;
             }
          }
+         std::cout << totalMarks << std::endl;
       }
 
       Q--;
