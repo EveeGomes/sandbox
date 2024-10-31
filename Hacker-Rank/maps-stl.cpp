@@ -51,16 +51,16 @@ int main() {
 
          ssInput >> name >> mark;
 
-         // add to the map if name doesn't exist yet
+         // check if name already exists. If it does add the mark otherwise add a new element to the map
          auto nameItr = studentInfo.find(name);
          if (nameItr != studentInfo.end())
          {
-
             nameItr->second.push_back(mark);
          }
          else
          {
-            studentInfo.insert(std::pair<std::string, std::vector<int>>(name, std::vector<int>{mark}));
+            //studentInfo.insert(std::pair<std::string, std::vector<int>>(name, std::vector<int>{mark}));
+            studentInfo.insert(std::make_pair(name, std::vector<int>{mark}));
          }
          
 
