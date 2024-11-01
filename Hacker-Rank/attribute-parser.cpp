@@ -39,7 +39,9 @@ int main() {
          // Collect attributes for the tag
          std::map<std::string, std::string> attributes;
          while (iss >> attr >> ignoreChar >> value) { // Read attributes
-            value.pop_back(); // Remove trailing '"'
+            //value.pop_back(); // Remove trailing '"'
+            value.erase(value.end() - 1); // remove '>'
+            value.erase(value.end() - 1); // remove trailing '"'
             value.erase(value.begin()); // Remove leading '"'
             attributes[attr] = value;
          }
