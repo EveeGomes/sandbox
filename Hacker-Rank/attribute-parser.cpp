@@ -39,7 +39,14 @@ int main() {
          // Collect attributes for the tag
          std::map<std::string, std::string> attributes;
          while (iss >> attr >> ignoreChar >> value) { // Read attributes
-            value = value.substr(1, value.length() - 3);
+            if (*(value.end() - 1) != '>')
+            {
+               value = value.substr(1, value.length() - 2);
+            }
+            else
+            {
+               value = value.substr(1, value.length() - 3);
+            }
             attributes[attr] = value;
          }
          tagMap[currentPath] = attributes; // Map the path to its attributes
