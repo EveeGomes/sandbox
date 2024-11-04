@@ -33,7 +33,7 @@ int main() {
          << std::showbase
          << std::hex
          << std::nouppercase
-         << static_cast<int>(truncatedA)
+         << static_cast<long long>(truncatedA)
          << std::endl;
 
       // reset std::cout
@@ -60,7 +60,8 @@ int main() {
          << std::setprecision(9)
          << std::fixed
          << std::scientific
-         << C;
+         << C
+         << std::endl;
 
       T--;
    }
