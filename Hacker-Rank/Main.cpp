@@ -1,5 +1,7 @@
 #include <iostream>
 #include <deque>
+#include <algorithm>
+#include <set>
 
 
 int main()
@@ -28,7 +30,6 @@ int main()
    }
 
    //std::deque<int> first{ 3, 4, 5, 8, 1, 4, 10 };
-
    // Add empty subdeques before adding elements to these subdeques (inner deque):
    //for (int i = 0; i < first.size() - 1; i++) // i < length;
    //{
@@ -43,7 +44,7 @@ int main()
 
    // Now, populate the inner deques
    int indexB = 0;
-   int iterate = first.size() - (first.size() % l);
+   //int iterate = first.size() - (first.size() % l); // ok
 
    for (int i = 0; i < (first.size() - (first.size() % l)); i++) // 4
    {
@@ -60,7 +61,32 @@ int main()
       //indexB++;
    }
 
+   // find the greatest value in each inner deque
+   //std::deque<int>::iterator innerIt = B[0].begin();
 
+   //std::deque<int>::iterator largest = std::max_element(innerIt, B[0].end());
+   //int large = *std::max_element(innerIt, B[0].end());
+
+   std::deque<int> largests;
+   //std::set<int> largests{};
+
+   for (int i = 0; i < B.size(); i++)
+   {
+
+      largests.push_back(*std::max_element(B[i].begin(), B[i].end()));
+
+      // no need for this inner loop since I just need the max in each inner deque
+      // 
+      //for (int j = 0; j < B[i].size(); j++)
+      //{
+      //   largests.push_back(*std::max_element(B[i].begin(), B[i].end()));
+      //   //largests.insert(*std::max_element(B[i].begin(), B[i].end()));
+      //}
+   }
+
+
+
+   // for debug only:
    for (int i = 0; i < B.size(); i++)
    {
       for (int j = 0; j < B[i].size(); j++)
@@ -68,6 +94,13 @@ int main()
          std::cout << B[i][j] << " ";
       }
       std::cout << std::endl;
+   }
+
+   std::cout << std::endl;
+   std::cout << "Largests: ";
+   for (const int large : largests)
+   {
+      std::cout << large << " ";
    }
 
    return 0;
