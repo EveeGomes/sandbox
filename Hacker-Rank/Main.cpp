@@ -6,24 +6,50 @@ int main()
 {
 
    std::deque<std::deque<int>> B;
-   //int length = 7;
-   int l = 4;
+   
+   // length of the deque
+   //int length = 5;
 
-   // Add empty subdeques before adding elements to these subdeques (inner deque):
-   for (int i = 0; i < l; i++)
+   // size of the inner deques
+   //int l = 4;
+
+   int lengthFirst{};
+   int l{};
+   int firstInts{};
+
+   std::cin >> lengthFirst >> l;
+
+   std::deque<int> first{};
+   // populate first
+   for (int i = 0; i < lengthFirst; i++)
    {
-      // add empty inner deque to B
-      B.push_back(std::deque<int>());
+      std::cin >> firstInts;
+      first.push_back(firstInts);
    }
 
-   int first[7] = { 3, 4, 5, 8, 1, 4, 10 };
+   //std::deque<int> first{ 3, 4, 5, 8, 1, 4, 10 };
+
+   // Add empty subdeques before adding elements to these subdeques (inner deque):
+   //for (int i = 0; i < first.size() - 1; i++) // i < length;
+   //{
+   //   // add empty inner deque to B
+   //   B.push_back(std::deque<int>());
+   //}
+
+   //int first[7] = { 3, 4, 5, 8, 1, 4, 10 };
+   //int first[5] = { 3, 4, 6, 3, 4 };
+
+
 
    // Now, populate the inner deques
    int indexB = 0;
+   int iterate = first.size() - (first.size() % l);
 
-   for (int i = 0; i < l; i++)
+   for (int i = 0; i < (first.size() - (first.size() % l)); i++) // 4
    {
-      indexB = i;
+      // create an empty inner deque to use/populate it in the next loop
+      B.push_back(std::deque<int>());
+      indexB = i; // 0, 1, 2, 3
 
       for (int j = 0; j < l; j++)
       {

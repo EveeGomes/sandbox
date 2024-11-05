@@ -7,7 +7,9 @@ int main()
 
    std::deque<std::deque<int>> B;
    //int length = 7;
-   int l = 4;
+
+   // size of the inner deques
+   int l = 2;
 
    // Add empty subdeques before adding elements to these subdeques (inner deque):
    for (int i = 0; i < l; i++)
@@ -16,7 +18,8 @@ int main()
       B.push_back(std::deque<int>());
    }
 
-   int first[7] = { 3, 4, 5, 8, 1, 4, 10 };
+   //int first[7] = { 3, 4, 5, 8, 1, 4, 10 };
+   int first[5] = { 3, 4, 6, 3, 4};
 
    // Now, populate the inner deques
    int indexB = 0;
