@@ -6,101 +6,68 @@
 
 int main()
 {
-
-   std::deque<std::deque<int>> B;
-   
-   // length of the deque
-   //int length = 5;
-
-   // size of the inner deques
-   //int l = 4;
-
-   int lengthFirst{};
-   int l{};
-   int firstInts{};
-
-   std::cin >> lengthFirst >> l;
-
+   // Deque with inner deques
+   std::deque<std::deque<int>> B{};
+   // Deque that receives elements from user
    std::deque<int> first{};
-   // populate first
-   for (int i = 0; i < lengthFirst; i++)
-   {
-      std::cin >> firstInts;
-      first.push_back(firstInts);
-   }
 
-   //std::deque<int> first{ 3, 4, 5, 8, 1, 4, 10 };
-   // Add empty subdeques before adding elements to these subdeques (inner deque):
-   //for (int i = 0; i < first.size() - 1; i++) // i < length;
-   //{
-   //   // add empty inner deque to B
-   //   B.push_back(std::deque<int>());
-   //}
-
-   //int first[7] = { 3, 4, 5, 8, 1, 4, 10 };
-   //int first[5] = { 3, 4, 6, 3, 4 };
-
-
-
-   // Now, populate the inner deques
+   std::deque<int> largests{};
+   int lengthFirst{};
+   int lengthInner{};
+   int firstInts{};
+   int T{};
+   // Used in the loop to populate inner deques
    int indexB = 0;
-   //int iterate = first.size() - (first.size() % l); // ok
 
-   for (int i = 0; i < (first.size() - (first.size() % l)); i++) // 4
+   // Get user input of how many tests:
+   std::cin >> T;
+
+   while (T > 0)
    {
-      // create an empty inner deque to use/populate it in the next loop
-      B.push_back(std::deque<int>());
-      indexB = i; // 0, 1, 2, 3
+      // Get user input of lengths of the first deque and inner deques
+      std::cin >> lengthFirst >> lengthInner;
 
-      for (int j = 0; j < l; j++)
+      // Populate first
+      for (int i = 0; i < lengthFirst; i++)
       {
-         B[i].push_back(first[indexB]);
-         indexB++;
+         std::cin >> firstInts;
+         first.push_back(firstInts);
       }
 
-      //indexB++;
-   }
-
-   // find the greatest value in each inner deque
-   //std::deque<int>::iterator innerIt = B[0].begin();
-
-   //std::deque<int>::iterator largest = std::max_element(innerIt, B[0].end());
-   //int large = *std::max_element(innerIt, B[0].end());
-
-   std::deque<int> largests;
-   //std::set<int> largests{};
-
-   for (int i = 0; i < B.size(); i++)
-   {
-
-      largests.push_back(*std::max_element(B[i].begin(), B[i].end()));
-
-      // no need for this inner loop since I just need the max in each inner deque
-      // 
-      //for (int j = 0; j < B[i].size(); j++)
-      //{
-      //   largests.push_back(*std::max_element(B[i].begin(), B[i].end()));
-      //   //largests.insert(*std::max_element(B[i].begin(), B[i].end()));
-      //}
-   }
-
-
-
-   // for debug only:
-   for (int i = 0; i < B.size(); i++)
-   {
-      for (int j = 0; j < B[i].size(); j++)
+      // Now, populate the inner deques
+      for (int i = 0; i < (first.size() - (first.size() % lengthInner)); i++)
       {
-         std::cout << B[i][j] << " ";
+         // create an empty inner deque to use/populate it in the next loop
+         B.push_back(std::deque<int>());
+         indexB = i;
+
+         for (int j = 0; j < lengthInner; j++)
+         {
+            B[i].push_back(first[indexB]);
+            indexB++;
+         }
+      }
+
+      // Find the largest numbers in each inner deque 
+      for (int i = 0; i < B.size(); i++)
+      {
+         largests.push_back(*std::max_element(B[i].begin(), B[i].end()));
+      }
+
+      //std::cout << std::endl;
+      //std::cout << "Largests: ";
+      for (const int large : largests)
+      {
+         std::cout << large << " ";
       }
       std::cout << std::endl;
-   }
 
-   std::cout << std::endl;
-   std::cout << "Largests: ";
-   for (const int large : largests)
-   {
-      std::cout << large << " ";
+      // Clear every deque to start again in each iteration of while
+      first.clear();
+      B.clear();
+      largests.clear();
+
+      T--;
    }
 
    return 0;
