@@ -1,93 +1,87 @@
 #include <iostream>
 #include <vector>
 #include <iterator>
+#include <deque>
 
 
+// Returns length of smallest subarray with sum greater than x.
+// If there is no subarray with given sum, returns size+1.
+int smallestSubWithSum(std::vector<int>& arr, int x) {
 
-
-int main()
-{
-   int* ptrStart = a;
-   int* ptrEnd = a;
-   int wind_sum = 0;
-   int wind_length = 0;
-   
-   //
-   std::vector<int> intVec = { 1, 4, 45, 6, 0, 19 };
-   int x = 51;
-   
-   std::vector<int>::iterator itStart = intVec.begin();
-   std::vector<int>::iterator itEnd = intVec.begin();
+   int start = 0;
+   int end = 0;
    int windSum = 0;
    int windLength = 0;
    int result = arr.size() + 1; // used to print out "Not possible" at the end in case there's not a subarray that satisfy the condition
 
    // Traverse the vector
-   while (itEnd < intVec.end()) // < intVec.End() - 1 ??
+   while (end < arr.size())
    {
       // Until wind_sum is smaller than or equal to x, continue adding array elements to it
-      while (windSum <= x && itEnd < intVec.end()) // < intVec.End() - 1 ? ?
+      while (windSum <= x && end < arr.size())
       {
-         windSum += *(itEnd++);
-         if (windSum <= x) windLength++;
+         windSum += arr[end++];
       }
 
       // If windSum turns to be greater than x, update the result to hold the length of the smallest subarray
-      // Increase start pointer 
-      while (windSum > x && itStart < intVec.end()) // < intVec.End() - 1 ? ?
+      // Increase start pointer
+      while (windSum > x && start < arr.size())
       {
-         result = std::min(result, windLength);
-         windSum -= *(itStart++);
+         result = std::min(result, end - start);
+         windSum -= arr[start++];
       }
    }
 
-   //while (windLength--)
-   //{
-   //   std::cout << *(itStart++) << ", ";
-   //}
    return result;
+}
 
-   
+void printVector(std::vector<int>& arr, int result, int x)
+{
+   std::deque<int> window{};
+   std::vector<int> subArray{};
+   int currSum = 0;
 
-
-
-   if (wind_sum <= x)
+   // Add first window
+   for (int i = 0; i < result; i++) // indices: 0, 1, 2
    {
-      //wind_sum += a[*ptrEnd];
-      wind_sum += *ptrEnd;
-      //// increment wind_length as the sum happened?
-      //wind_length++;
+      subArray.push_back(arr[i]);
+      currSum += arr[i];
+   }
 
-      if (wind_sum <= x) // <=?
+   for (int i = result; i < arr.size(); i++) // i = result = 3
+   {
+      if (currSum < x)
       {
-         // increment end pointer
-         ptrEnd++;
-         // increment wind length
-         wind_length++;
+         // remove first, add the next element from arr starting from the current after result
+         subArray.erase(subArray.begin());
+         // add the next element
+         subArray.push_back(arr[i]);
+         // add to the sum
+         currSum += arr[i];
       }
    }
-   std::cout << wind_sum << std::endl;
-   std::cout << wind_length << std::endl;
 
-   // when wind_sum is > x, record the length of the window (?)
-
-   // now, incremement ptrStart until the sum is less or equal to x
-   if (wind_sum > x)
+   for (const int& elm : subArray)
    {
-      wind_sum -= *ptrStart;
-
-      if (wind_sum > x)
-      {
-         ptrStart++;
-         //wind_length--; // no need
-      }
+      std::cout << elm << " ";
    }
-   std::cout << wind_sum << std::endl;
-   std::cout << wind_length;
+   // 1 4 45
+   // 4 45 6
+}
 
-   // restart ptrEnd++ loop -> for the length of the array? Then, use for loop to encapsulate the two whiles?
 
-   std::cout << "\n Start: " << *ptrStart << ", End: " << *ptrEnd;
+int main() {
+   // 1, 4, 45, 6, 0, 19 x = 51 Minimum length subarray is {4, 45, 6}
+   // 1, 11, 100, 1, 0, 200, 3, 2, 1, 250 x = 280 Minimum length subarray is {100, 1, 0, 200}
+   // 1, 10, 5, 2, 7 x = 9 Minimum length subarray is {10}
+
+   std::vector<int> arr = { 1, 10, 5, 2, 7 };
+   int x = 9;
+
+   int res = smallestSubWithSum(arr, x);
+   (res == arr.size() + 1) ? std::cout << "Not possible\n" : std::cout << res << std::endl;
+
+   printVector(arr, res, x);
 
    return 0;
 }
