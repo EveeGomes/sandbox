@@ -51,8 +51,8 @@ int main()
          // Add the current element (current index) to the back of the window
          window.push_back(i);
 
-         // For the current window (as soon as a full window is achieved: the current index is >= windowLength - 1), the element at the front
-         //  represents the index of the element in numbers that's the largest one!
+         // For the current window (as soon as a full window is achieved: the current index is >= windowLength - 1), 
+         //  the element at the front represents the index of the element in numbers that's the largest one!
          if (i >= windowLength - 1) // means the window is filled, therefore we're in the current window
          {
             // Then, add the numbers element to the largest array using the index at the front in the window
