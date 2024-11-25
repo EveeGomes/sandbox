@@ -18,27 +18,17 @@ template<typename T>
 void printPointer(T* ptr)
 {
    std::cout << "Pointer's address: " << &ptr << std::endl;
-   //std::cout << "Address to where this pointer points to: " << static_cast<void*>(ptr) << std::endl;
-   if (std::is_same<T, const char>::value) // const char*
+   std::cout << "Address to where this pointer points to: " << static_cast<const void*>(ptr) << std::endl;
+
+   if (std::is_same<T, const char>::value) // instead of const char*
    {
-      //std::cout << "Pointer's address: " << &T << std::endl;
-      std::cout << "Address to where this pointer points to: " << static_cast<const void*>(ptr) << std::endl;
       std::cout << "Content in the address this pointer points to: " << ptr << std::endl;
    }
    else
    {
-      //std::cout << "Pointer's address: " << &ptr << std::endl;
-      std::cout << "Address to where this pointer points to: " << static_cast<const void*>(ptr) << std::endl;
       std::cout << "Content in the address this pointer points to: " << *ptr << std::endl;
    }
 }
-
-//void printConstCharPointer(const char* ptr)
-//{  
-//   std::cout << "Pointer's address: " << &ptr << std::endl;
-//   std::cout << "Address to where this pointer points to: " << static_cast<const void*>(ptr) << std::endl;
-//   std::cout << "Content in the address this pointer points to: " << ptr << std::endl;
-//}
 
 void IsPalindrome(const char* word, int wordLength)
 {
@@ -53,19 +43,23 @@ int main()
 
    // pointer to a constant char or constant C-style string
    const char* word = nullptr;
-   int* ptrInt = new int{ 10 };
+   int* ptrInt = nullptr;
+   ptrInt = new int{ 10 };
+
+   // C-Style string
+   char unConstWord[] = "Not Const Array";
+
 
    word = "Hello";
-   //printConstCharPointer(word);
    printPointer<const char>(word);
    std::cout << std::endl;
 
    word = "World";
-   //printConstCharPointer(word);
    printPointer<const char>(word);
+
    std::cout << std::endl;
-   
    printPointer<int>(ptrInt);
+
    delete ptrInt;
 
    return 0;
