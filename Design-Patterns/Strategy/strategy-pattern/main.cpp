@@ -27,6 +27,50 @@ struct ListStrategy
    virtual void end(std::ostringstream& oss) {}
 };
 
+struct MarkdownListStrategy : ListStrategy
+{
+
+};
+
+struct HtmlListStrategy : ListStrategy
+{
+
+};
+
+/*
+* Have a text process component that'll help print those lists in a proper fashion.
+* It'll allow us to use a particular strategy to print a list of items.
+* 
+* So how to refer to the strategy itself? Two approaches:
+* Dynamic approach -> have a variable of a strategy type;
+* Static approach -> take the strategy type as a template argument.
+* 
+* 
+*/
+struct TextProcessor
+{
+   // DYNAMIC APPROACH
+   
+   // Add some functionality of specifying what kind of strategy we want - we do that by using the enum.
+   // So we take a format and depending on what format we'll create an instance of it and set to the listStrategy.
+   void setOutputFormat(const OutputFormat& format)
+   {
+      switch (format)
+      {
+      case OutputFormat::markdown:
+         listStrategy = std::make_unique<MarkdownListStrategy>();
+         break;
+      case OutputFormat::html:
+         listStrategy = std::make_unique<HtmlListStrategy>();
+      }
+   }
+
+private:
+   std::ostringstream oss; // we'll fill in.
+   std::unique_ptr<ListStrategy> listStrategy;
+};
+
+
 int main(int ac, char* av[])
 {
 
