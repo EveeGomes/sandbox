@@ -31,12 +31,28 @@ struct ListStrategy
 
 struct MarkdownListStrategy : ListStrategy
 {
-
+   virtual void addListItem(std::ostringstream& oss, const std::string& item)
+   {
+      oss << "* " << item << "\n";
+   }
 };
 
 struct HtmlListStrategy : ListStrategy
 {
+   virtual void start(std::ostringstream& oss)
+   {
+      oss << "<ul>\n";
+   }
 
+   virtual void addListItem(std::ostringstream& oss, const std::string& item)
+   {
+      oss << "    <li>" << item << "</li>" << "\n";
+   }
+
+   virtual void end(std::ostringstream& oss)
+   {
+      oss << "</ul>\n";
+   }
 };
 
 /*
