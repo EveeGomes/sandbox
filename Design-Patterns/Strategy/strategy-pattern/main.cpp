@@ -3,8 +3,10 @@
 * For this example, we'll use Markdown (MD) and HTML.
 */
 
+#include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 enum class OutputFormat
 {
@@ -50,6 +52,26 @@ struct HtmlListStrategy : ListStrategy
 struct TextProcessor
 {
    // DYNAMIC APPROACH
+
+   // Make a utility function for clearing the text processes.
+   void clear()
+   {
+      oss.str("");
+      oss.clear();
+   }
+
+   // Use the strategy to append items.
+   void appendList(const std::vector<std::string>& items)
+   {
+      // Use the strategy reference here. 
+      listStrategy->start(oss);
+      for (auto& item : items)
+      {
+         listStrategy->addListItem(oss, item);
+      }
+
+      listStrategy->end(oss);
+   }
    
    // Add some functionality of specifying what kind of strategy we want - we do that by using the enum.
    // So we take a format and depending on what format we'll create an instance of it and set to the listStrategy.
@@ -65,6 +87,11 @@ struct TextProcessor
       }
    }
 
+   std::string str() const
+   {
+      return oss.str();
+   }
+
 private:
    std::ostringstream oss; // we'll fill in.
    std::unique_ptr<ListStrategy> listStrategy;
@@ -73,6 +100,18 @@ private:
 
 int main(int ac, char* av[])
 {
+   std::vector<std::string> items{ "foo", "bar", "baz" };
+
+   TextProcessor textProcessor;
+   textProcessor.setOutputFormat(OutputFormat::markdown);
+   textProcessor.appendList(items);
+   std::cout << textProcessor.str() << "\n";
+
+   textProcessor.clear();
+
+   textProcessor.setOutputFormat(OutputFormat::html);
+   textProcessor.appendList(items);
+   std::cout << textProcessor.str() << "\n";
 
    return 0;
 }
