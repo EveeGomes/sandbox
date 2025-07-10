@@ -60,14 +60,15 @@ struct HtmlListStrategy : ListStrategy
 * It'll allow us to use a particular strategy to print a list of items.
 * 
 * So how to refer to the strategy itself? Two approaches:
-* Dynamic approach -> have a variable of a strategy type;
-* Static approach -> take the strategy type as a template argument.
-* 
-* 
+* Dynamic approach -> have a variable of a strategy type; the type will be changed at runtime
+* Static approach -> take the strategy type as a template argument. The type can't be changed at runtime so there should 
+*  be one type of each OutputFormat we need in main.
 */
+
+template<typename LS>
 struct TextProcessor
 {
-   // DYNAMIC APPROACH
+   // STATIC APPROACH
 
    // Make a utility function for clearing the text processes.
    void clear()
@@ -80,28 +81,16 @@ struct TextProcessor
    void appendList(const std::vector<std::string>& items)
    {
       // Use the strategy reference here. 
-      listStrategy->start(oss);
+      listStrategy.start(oss);
       for (auto& item : items)
       {
-         listStrategy->addListItem(oss, item);
+         listStrategy.addListItem(oss, item);
       }
 
-      listStrategy->end(oss);
+      listStrategy.end(oss);
    }
    
-   // Add some functionality of specifying what kind of strategy we want - we do that by using the enum.
-   // So we take a format and depending on what format we'll create an instance of it and set to the listStrategy.
-   void setOutputFormat(const OutputFormat& format)
-   {
-      switch (format)
-      {
-      case OutputFormat::markdown:
-         listStrategy = std::make_unique<MarkdownListStrategy>();
-         break;
-      case OutputFormat::html:
-         listStrategy = std::make_unique<HtmlListStrategy>();
-      }
-   }
+   // setOutputFormat won't exist for static approach
 
    std::string str() const
    {
@@ -110,24 +99,21 @@ struct TextProcessor
 
 private:
    std::ostringstream oss; // we'll fill in.
-   std::unique_ptr<ListStrategy> listStrategy;
+   LS listStrategy;
 };
 
 
 int main(int ac, char* av[])
 {
-   std::vector<std::string> items{ "foo", "bar", "baz" };
+   // markdown
+   TextProcessor<MarkdownListStrategy> tpm;
+   tpm.appendList({ "foo", "bar", "baz" });
+   std::cout << tpm.str() << std::endl;
 
-   TextProcessor textProcessor;
-   textProcessor.setOutputFormat(OutputFormat::markdown);
-   textProcessor.appendList(items);
-   std::cout << textProcessor.str() << "\n";
-
-   textProcessor.clear();
-
-   textProcessor.setOutputFormat(OutputFormat::html);
-   textProcessor.appendList(items);
-   std::cout << textProcessor.str() << "\n";
+   // html
+   TextProcessor<HtmlListStrategy> tph;
+   tph.appendList({ "foo", "bar", "baz" });
+   std::cout << tph.str() << std::endl;
 
    return 0;
 }
