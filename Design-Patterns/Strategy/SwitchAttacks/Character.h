@@ -8,8 +8,8 @@
 class Character
 {
 private:
-   IAttackStrategy* m_attackStrategy;
-   std::string m_name;
+   IAttackStrategy* m_attackStrategy{};
+   std::string m_name{""};
 
 public:
    Character();

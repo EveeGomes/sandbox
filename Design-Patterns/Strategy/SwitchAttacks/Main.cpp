@@ -11,19 +11,9 @@ int main()
    int input = -1;
    Character Player;
 
-   /*Character Player;*/
    std::string playerName = "";
    std::cout << "Please tell me your name: ";
    std::cin >> playerName;
-
-   //if (!playerName.empty())
-   //{
-   //   Character Player(playerName);
-   //}
-   //else
-   //{
-   //   Character Player;
-   //}
 
    if (!playerName.empty())
    {

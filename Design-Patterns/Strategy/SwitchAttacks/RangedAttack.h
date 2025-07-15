@@ -6,6 +6,7 @@
 
 class RangedAttack : public IAttackStrategy
 {
+public:
    void Attack() const override;
 };
 
