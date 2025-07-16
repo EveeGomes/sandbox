@@ -1,49 +1,57 @@
 #include <iostream>
 #include <stack>
 #include <string>
+#include <sstream>
+#include <vector>
+#include <algorithm> // std::reverse
 
-void reverseString(const std::string& str)
+std::string reverseWords(const std::string& sentence)
 {
-   std::string reversedStr = "";
-   std::stack<char> reversedChars;
+   std::string word{};
+   std::string reversed{};
+   std::vector<std::string> words{};
+   
+   // Turns the string into a istringstream, which allows me to read it word by word!
+   std::istringstream iss(sentence);
 
-   for (int i = 0; i < str.length(); ++i)
+   // Reads each word separated by whitespace
+   while (iss >> word)
    {
-      reversedChars.push(str[i]);
+      words.push_back(word);
    }
 
-   while (!reversedChars.empty())
+   std::reverse(words.begin(), words.end());
+
+   //for (size_t i = 0; i < words.size(); ++i)
+   //{
+   //   reversed += words[i];
+
+   //   if (i != words.size() - 1)
+   //   {
+   //      reversed += ' ';
+   //   }
+   //}
+
+   for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
    {
-      reversedStr += reversedChars.top();
-      reversedChars.pop();
+      reversed += *it;
+
+      if (it != std::prev(words.end()))
+      {
+         reversed += ' ';
+      }
    }
 
-   std::cout << reversedStr << std::endl;
-
-   //return reversedStr;
+   return reversed;
 }
-
 
 int main()
 {
-   std::string word = "faraway";
-   reverseString(word);
+   std::string sentence = "we are far away";
+   std::string reversedSentence{};
+   reversedSentence = reverseWords(sentence);
 
-   //std::stack<char> reversed;
-
-   //for (int i = 0; i < word.length(); ++i)
-   //{
-   //   std::cout << word[i];
-   //   reversed.push(word[i]);
-   //}
-   //std::cout << std::endl;
-   //std::cout << "-------------" << std::endl;
-
-   //while (!reversed.empty())
-   //{
-   //   std::cout << reversed.top();
-   //   reversed.pop();
-   //}
+   std::cout << reversedSentence << std::endl;
 
    return 0;
 }
