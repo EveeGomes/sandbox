@@ -8,7 +8,8 @@
 std::string reverseWords(const std::string& sentence)
 {
    std::string word{};
-   std::string reversed{};
+   //std::string reversed{};
+   std::ostringstream oss{};
    std::vector<std::string> words{};
    
    // Turns the string into a istringstream, which allows me to read it word by word!
@@ -34,15 +35,15 @@ std::string reverseWords(const std::string& sentence)
 
    for (std::vector<std::string>::iterator it = words.begin(); it != words.end(); ++it)
    {
-      reversed += *it;
+      oss << *it;
 
       if (it != std::prev(words.end()))
       {
-         reversed += ' ';
+         oss << ' ';
       }
    }
 
-   return reversed;
+   return oss.str();
 }
 
 int main()
