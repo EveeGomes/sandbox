@@ -6,6 +6,7 @@
 
 class MagicAttack : public IAttackStrategy
 {
+public:
    void Attack() const override;
 };
 
