@@ -4,12 +4,13 @@
 /*
 * Command interface
 */
+#include "Player.h"
 
 class Command
 {
 public:
    virtual ~Command() = default;
-   virtual void Execute() = 0;
+   virtual void Execute(Player& player) = 0;
 };
 
 #endif // !COMMAND_H

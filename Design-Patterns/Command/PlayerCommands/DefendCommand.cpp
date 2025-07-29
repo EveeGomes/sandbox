@@ -2,18 +2,7 @@
 
 DefendCommand::DefendCommand() {}
 
-DefendCommand::DefendCommand(Player* player)
+void DefendCommand::Execute(Player& player)
 {
-   if (player)
-   {
-      m_Player = player;
-   }
-}
-
-void DefendCommand::Execute()
-{
-   if (m_Player)
-   {
-      m_Player->Defend();
-   }
+   player.Defend();
 }

@@ -2,19 +2,13 @@
 #define DEFENDCOMMAND_H
 
 #include "Command.h"
-#include "Player.h"
 
 class DefendCommand : public Command
 {
 public:
    DefendCommand();
 
-   DefendCommand(Player* player);
-   void Execute() override;
-
-private:
-   Player* m_Player{};
+   void Execute(Player& player) override;
 };
-
 
 #endif // !DEFENDCOMMAND_H

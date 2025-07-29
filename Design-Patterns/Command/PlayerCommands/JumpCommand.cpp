@@ -2,18 +2,7 @@
 
 JumpCommand::JumpCommand() {}
 
-JumpCommand::JumpCommand(Player* player)
+void JumpCommand::Execute(Player& player)
 {
-   if (player)
-   {
-      m_Player = player;
-   }
-}
-
-void JumpCommand::Execute()
-{
-   if (m_Player)
-   {
-      m_Player->Jump();
-   }
+   player.Jump();
 }

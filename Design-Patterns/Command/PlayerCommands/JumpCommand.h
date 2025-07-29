@@ -6,18 +6,14 @@
 */
 
 #include "Command.h"
-#include "Player.h"
 
 class JumpCommand : public Command
 {
 public:
    JumpCommand();
 
-   JumpCommand(Player* player);
-   void Execute() override;
+   void Execute(Player& player) override;
 
-private:
-   Player* m_Player{};
 };
 
 #endif // !JUMPCOMMAND_H

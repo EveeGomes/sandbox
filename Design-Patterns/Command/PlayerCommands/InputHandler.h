@@ -13,7 +13,7 @@ class InputHandler
 public:
    InputHandler();
 
-   void HandleInput(char input);
+   void HandleInput(char input, Player& player);
    void BindCommand(char key, Command* command);
 
 private:

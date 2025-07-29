@@ -2,12 +2,12 @@
 
 InputHandler::InputHandler() {}
 
-void InputHandler::HandleInput(char input)
+void InputHandler::HandleInput(char input, Player& player)
 {
    auto KeyIterator = m_KeyCommands.find(input);
    if (KeyIterator != m_KeyCommands.end() && KeyIterator->second)
    {
-      KeyIterator->second->Execute();
+      KeyIterator->second->Execute(player);
    }
 }
 
