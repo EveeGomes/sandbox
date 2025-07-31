@@ -18,9 +18,15 @@
     <ClInclude Include="TreeType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TreeFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TreeType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
