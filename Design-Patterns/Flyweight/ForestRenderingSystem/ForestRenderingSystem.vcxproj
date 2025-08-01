@@ -123,10 +123,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Tree.h" />
     <ClInclude Include="TreeFactory.h" />
     <ClInclude Include="TreeType.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Tree.cpp" />
     <ClCompile Include="TreeFactory.cpp" />
     <ClCompile Include="TreeType.cpp" />
   </ItemGroup>
