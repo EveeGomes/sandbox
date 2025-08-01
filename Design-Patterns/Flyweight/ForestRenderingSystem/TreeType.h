@@ -8,12 +8,12 @@
 #include <string>
 #include <iostream>
 
-
 class TreeType
 {
    std::string _name{};
    std::string _texture{};
    std::string _mesh{};
+
    static int _treeTypeCount;
 
 public:

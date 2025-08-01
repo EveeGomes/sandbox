@@ -11,6 +11,7 @@ class Forest
 {
    std::vector<Tree> _trees{};
    TreeFactory _treeFactory{};
+
 public:
    Forest() {}
 
