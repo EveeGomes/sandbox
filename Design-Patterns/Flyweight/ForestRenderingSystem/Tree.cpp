@@ -6,5 +6,5 @@ void Tree::Display() const
    _treeTypePtr->DisplaySharedInfo();
    std::cout << "Position: (" << _x << "," << _y << ")" << std::endl;
    std::cout << "Height: " << _height << std::endl;
-   std::cout << "=====================" << std::endl;
+   std::cout << "=====================\n" << std::endl;
 }
