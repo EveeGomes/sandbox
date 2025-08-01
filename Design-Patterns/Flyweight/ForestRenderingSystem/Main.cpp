@@ -1,10 +1,10 @@
 #include "Forest.h"
 #include "TreeType.h"
 
+const int NUMBEROFTREES = 10;
 
 int main()
 {
-   const int NUMBEROFTREES = 10;
    Forest forest{};
 
    // Plant NUMBEROFTREES trees
@@ -12,11 +12,11 @@ int main()
    {
       if (x >= NUMBEROFTREES / 2)
       {
-         forest.PlantTree(x + 1, y + 1, 10.f, "Pine", "texture1", "mesh1");
+         forest.PlantTree(x + 1, y + 1, y + 10.f, "Pine", "texture1", "mesh1");
       }
       else
       {
-         forest.PlantTree(x + 1, y + 1, 15.f, "Oak", "texture2", "mesh2");
+         forest.PlantTree(x + 1, y + 1, x + 15.f, "Oak", "texture2", "mesh2");
       }
    }
 
